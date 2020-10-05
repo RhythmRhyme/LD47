@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI chatText;
     public Image defeatBackgroud;
     public TextMeshProUGUI defeatText;
+    public TextMeshProUGUI helpText;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI enemyNumberText;
     public TextMeshProUGUI endText;
@@ -60,12 +61,14 @@ public class GameManager : MonoBehaviour
         //开始进入剧情
         if (storyStatus == 0)
         {
-            if (playerDeathCount == 3)
+            if (playerDeathCount >= 3)
             {
+                helpText.gameObject.SetActive(false);
                 storyStatus = 1;
                 return true;
             }
 
+            helpText.gameObject.SetActive(true);
             return false;
         }
         else if (storyStatus == 1)
@@ -83,7 +86,6 @@ public class GameManager : MonoBehaviour
             {
                 pressR2Refresh = true;
                 storyStatus++;
-                player.mainCamera.GetComponent<CameraManager>().ZoomOut();
             }
             else
             {
@@ -205,7 +207,7 @@ public class GameManager : MonoBehaviour
                     "Bot008: You are a very important part of the plan!",
                     "Bot008: do you dare to take the risk?",
                     "[ME]: ...",
-                    "Bot008: I forgot you don't have language scripts... Let's JUST DO IT!"
+                    "Bot008: I forgot you don't have language scripts...HaHaHa, Let's JUST DO IT!"
                 };
                 if (chatStrings.Length > dialogStatus)
                 {
@@ -356,12 +358,8 @@ public class GameManager : MonoBehaviour
             {
                 FileUtil.CreateFile(Current, "_Bot008.data", FileUtil.Base64Encode(FileInfo));
             }
-
-            storyStatus++;
-        }
-        else if (storyStatus == 103)
-        {
             //退出游戏
+            Debug.Log("Application.Quit()");
             Application.Quit();
         }
         else if (storyStatus == -100)
@@ -445,9 +443,7 @@ public class GameManager : MonoBehaviour
             yield return new WaitForSeconds(1f);
             obj.GetComponent<PlayerController>().mainCamera.transform.SetParent(null);
             DestroyAddSounds(obj);
-        }
-        else if (deleteStatus == 3)
-        {
+            //同时删除
             obj = GameObject.FindGameObjectWithTag("Ground");
             if (obj == null)
                 deleteStatus++;
@@ -784,6 +780,7 @@ public class GameManager : MonoBehaviour
     {
         isSpawning = true;
         yield return new WaitForSeconds(1);
+        isSpawning = false;
         if (isAllEnemyDead())
         {
             if (!isScene2)
@@ -796,8 +793,6 @@ public class GameManager : MonoBehaviour
             }
             SpawnEnemy(wave);
         }
-
-        isSpawning = false;
     }
 
     public void ResetWave(bool clearBody)

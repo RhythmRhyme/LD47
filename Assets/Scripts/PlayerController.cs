@@ -233,6 +233,10 @@ public class PlayerController : MonoBehaviour
 
     public void changeWeaponSize(int enemyNumber)
     {
+        if (!gameManager.isScene2)
+        {
+            return;
+        }
         float n =(120 - enemyNumber) * 0.05f;
         weaponStandardAction.gameObject.transform.localScale = new Vector3(1 + n,1 + n, 1 + n);
         // weaponStandardAction.light.transform.localPosition = new Vector3(0,1 + n, 0);

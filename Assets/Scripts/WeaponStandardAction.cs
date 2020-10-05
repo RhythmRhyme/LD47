@@ -13,6 +13,7 @@ public class WeaponStandardAction : MonoBehaviour
     public AudioSource audio { get; set; }
 
     public GameObject Master { get; set; }
+    private bool isPlayer;
 
     //动作是否完成
     public bool isActionOver { get; set; }
@@ -44,7 +45,8 @@ public class WeaponStandardAction : MonoBehaviour
         }
         audio = GetComponent<AudioSource>();
         posture = 1;
-        if (Master.CompareTag("Player"))
+        isPlayer = Master.CompareTag("Player");
+        if (isPlayer)
         {
             changeSpeed = 30;
             attSpeed = 20;
@@ -76,7 +78,7 @@ public class WeaponStandardAction : MonoBehaviour
         posture = 12;
         targetPosition = new Vector3(0, 1.1f, 0.6f);
         targetRotation = Quaternion.Euler(-130f + 90, 0, 0);
-        if (ActionAndCheckIsOver(targetPosition, targetRotation, attSpeed))
+        if (ActionAndCheckIsOver(targetPosition, targetRotation, attSpeed) && isPlayer)
         {
             posture = 22;
         }
@@ -108,7 +110,7 @@ public class WeaponStandardAction : MonoBehaviour
         //横放
         targetPosition = new Vector3(-0.3f, 0.65f, 0.5f);
         targetRotation = Quaternion.Euler(new Vector3(6f + 90, -60f, 0));
-        if (ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed))
+        if (ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed)  && isPlayer)
         {
             posture = 20;
         }
@@ -138,7 +140,7 @@ public class WeaponStandardAction : MonoBehaviour
         posture = 11;
         targetPosition = new Vector3(0.5f, 0f, 0f);
         targetRotation = Quaternion.Euler(new Vector3(-180f + 90, -190f, 0));
-        if (ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed))
+        if (ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed) && isPlayer)
         {
             posture = 21;
         }
