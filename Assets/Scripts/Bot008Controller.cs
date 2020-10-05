@@ -42,10 +42,17 @@ public class Bot008Controller : MonoBehaviour
             //从地底出现
             IncorporealOn();
             float speed = 1;
-            float z = player.transform.rotation.z > 0 ? -5f : 5f;
-            float x = player.transform.rotation.z > 0 ? -1.5f : 1.5f;
-            Vector3 targetPosition = player.transform.position + new Vector3(x, 0f, z);
-            Debug.Log("transform.position=" + transform.position + "targetPosition=" + targetPosition);
+            Vector3 targetPosition;
+            if (player.isDead)
+            {
+                float x = player.transform.rotation.z > 0 ? 2f : -2f;
+                targetPosition = player.transform.position + new Vector3(x, -0.5f, 1.5f);
+            }
+            else
+            {
+                targetPosition = player.transform.position + new Vector3(0, 0.5f, -1.5f);
+            }
+            // Debug.Log("transform.position=" + transform.position + "targetPosition=" + targetPosition);
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
             if (Vector3Util.compareVector3(transform.position, targetPosition, 0.05f))
             {
@@ -57,8 +64,7 @@ public class Bot008Controller : MonoBehaviour
             //钻入地底消失
             IncorporealOn();
             float speed = 1;
-            float z = player.transform.rotation.z > 0 ? -5f : 5f;
-            Vector3 targetPosition = player.transform.position + new Vector3(0, -1.5f, z);
+            Vector3 targetPosition = new Vector3(transform.position.x, player.transform.position.y - 2f, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * speed);
             if (Vector3Util.compareVector3(transform.position, targetPosition, 0.05f))
             {
@@ -71,12 +77,12 @@ public class Bot008Controller : MonoBehaviour
             IncorporealOff();
             float speed = 2;
             Vector3 targetPosition = getClosetMemoryBug().transform.position;
-            transform.Translate((targetPosition - transform.position).normalized * speed * Time.deltaTime); 
-            if (Vector3Util.compareVector3(transform.position, targetPosition, 8f))
+            // Debug.Log((targetPosition - transform.position).normalized);
+            transform.Translate((targetPosition - transform.position).normalized * speed * Time.deltaTime);
+            if (Vector3Util.compareVector3(transform.position, targetPosition, 10f))
             {
                 return true;
             }
-            
         }
 
         return false;

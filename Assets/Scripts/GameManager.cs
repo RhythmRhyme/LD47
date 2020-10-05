@@ -8,8 +8,7 @@ public class GameManager : MonoBehaviour
 {
     public GameObject bot008Object;
     public GameObject enemyObject;
-    private PlayerController player;
-    private Bot008Controller bot008;
+    public Material wireframeMaterial;
     public int playerDeathCount { set; get; }
     public int storyStatus;
     public TextMeshProUGUI pressRText;
@@ -19,14 +18,16 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI defeatText;
     public int wave;
     public bool pressR2Refresh;
-
-    private bool isStartCoroutine;
-
-    private List<GameObject> allEnemys = new List<GameObject>();
-
-    private int firstChatLastPage = 17;
-
     public int firstStoryHelperStatus;
+
+    private PlayerController player;
+    private Bot008Controller bot008;
+    private bool isStartCoroutine;
+    private int firstChatLastPage = 20;
+    private int dialogStatus;
+    private bool isDialogGoing;
+    private bool isSpawning;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
                 storyStatus = 1;
                 return true;
             }
+
             return false;
         }
         else if (storyStatus == 1)
@@ -53,10 +55,11 @@ public class GameManager : MonoBehaviour
             //剧情NPC出现
             if (bot008 == null)
             {
-                float z = player.transform.rotation.z > 0 ? -5f : 5f;
-                bot008 = Instantiate(bot008Object, player.transform.position + new Vector3(0, -1, z), Quaternion.Euler(0, 0, 0)).GetComponent<Bot008Controller>();
+                float x = player.transform.rotation.z > 0 ? 2f : -2f;
+                bot008 = Instantiate(bot008Object, player.transform.position + new Vector3(x, -1, 1.5f), Quaternion.Euler(0, 0, 0)).GetComponent<Bot008Controller>();
                 bot008.player = this.player;
             }
+
             bool done = bot008.Do(1);
             if (done)
             {
@@ -80,7 +83,8 @@ public class GameManager : MonoBehaviour
             {
                 chatText.pageToDisplay++;
                 bot008.talkAction();
-                if (chatText.pageToDisplay == firstChatLastPage - 2)
+                //修改press文字
+                if (chatText.pageToDisplay == firstChatLastPage - 3)
                 {
                     StartCoroutine(ChangePressR());
                 }
@@ -92,17 +96,18 @@ public class GameManager : MonoBehaviour
             bool done = bot008.Do(3);
             if (done)
             {
-                //下一页
+                //最后一页
                 chatText.pageToDisplay = firstChatLastPage;
                 storyStatus++;
                 player.mainCamera.GetComponent<CameraManager>().ZoomOut();
             }
             else
             {
+                chatText.pageToDisplay = firstChatLastPage - 1;
                 player.mainCamera.GetComponent<CameraManager>().ZoomIn();
                 player.mainCamera.transform.LookAt(bot008.transform);
             }
-        } 
+        }
         else if (storyStatus == 4)
         {
             //按R键继续
@@ -119,11 +124,11 @@ public class GameManager : MonoBehaviour
             if (firstStoryHelperStatus == 0)
             {
                 firstStoryHelperStatus = 1;
-                StartCoroutine(firstStoryHelper2());
+                ShowOnePageTextAndCountDown2Hide("Bot008:Look! It works! The body didn't disappear.I think you can use it.");
             }
             else if (firstStoryHelperStatus == 1)
             {
-                StartCoroutine(firstStoryHelper1());
+                CountDown4ShowOnPageText("Bot008: *Wisper* Well, by the way, you can press the space bar and step on their bodies and jump onto the wall.");
                 firstStoryHelperStatus = 2;
             }
             else if (firstStoryHelperStatus == 2)
@@ -133,13 +138,13 @@ public class GameManager : MonoBehaviour
                 if (player.isOutFirstCircle)
                 {
                     storyStatus = 10;
+                    firstStoryHelperStatus = 0;
                 }
             }
         }
         else if (storyStatus == 10)
         {
-            float z = player.transform.rotation.z > 0 ? -5f : 5f;
-            bot008.transform.position = player.transform.position + new Vector3(0, -1, z);
+            bot008.transform.position = player.transform.position + new Vector3(0, -2, -1.5f);
             Debug.Log("bot008.transform.position=" + bot008.transform.position);
             storyStatus = 11;
         }
@@ -149,8 +154,9 @@ public class GameManager : MonoBehaviour
             bool done = bot008.Do(1);
             if (done)
             {
-                ShowTextOnePage("Bot008:Good job! Next, let's find the bug of this loop! follow me.");
+                ShowOnePageTextAndCountDown2Hide("Bot008:Good job! Next, follow me.");
                 storyStatus++;
+                dialogStatus = 0;
                 player.mainCamera.GetComponent<CameraManager>().ZoomOut();
             }
             else
@@ -162,41 +168,66 @@ public class GameManager : MonoBehaviour
         else if (storyStatus == 12)
         {
             //008前往故事地点
-            bot008.Do(101);
+            bot008.Do(101); //显示光环
             if (bot008.Do(10))
             {
                 storyStatus++;
             }
+            else if (!isDialogGoing)
+            {
+                string[] chatStrings = new[]
+                {
+                    "Bot008: Now let me explain to you, This program is a LOOP...",
+                    "Bot008: If we want to break it, then we must find its jump out logic...",
+                    "Bot008: Or let the STACK OVERFLOW directly!",
+                    "Bot008: We just need to reduce the runnable space of the program",
+                    "Bot008: And then we keep making enemies that won't be reset to devour memory",
+                    "Bot008: Like... Dead robots",
+                    "Bot008: But I don't have combat scripts, so...",
+                    "Bot008: You are a very important part of the plan!",
+                    "Bot008: do you dare to take the risk?",
+                    "[ME]: ...",
+                    "Bot008: I forgot you don't have language scripts... Let's JUST DO IT!"
+                };
+                if (chatStrings.Length > dialogStatus)
+                {
+                    ShowOnePageTextAndCountDown2Hide(chatStrings[dialogStatus]);
+                    dialogStatus++;
+                }
+            }
         }
         else if (storyStatus == 13)
         {
-            //008到达故事地点1
-            bot008.Do(100);
-            ShowTextOnePage("Bot008:Here it is!");
-            storyStatus++;
+            bot008.Do(100); //隐藏光环
+            if (!isDialogGoing)
+            {
+                ShowOnePageTextAndCountDown2Hide("Bot008:There it is!");
+                storyStatus++;
+            }
         }
         else if (storyStatus == 14)
         {
-            WaitingPlayerClickLeftMouse();
+            if (!isDialogGoing)
+            {
+                ShowOnePageTextAndCountDown2Hide("Bot008:Let me make a little bit of a change...");
+                storyStatus++;
+            }
         }
         else if (storyStatus == 15)
         {
-            //008到达故事地点2
-            ShowTextOnePage("Bot008:Let me make a little bit of a change...");
-            storyStatus++;
+            if (!isDialogGoing)
+            {
+                //显示BUG球
+                GameObject closet = bot008.GetComponent<Bot008Controller>().getClosetMemoryBug();
+                closet.transform.position += new Vector3(0, 5f, 0);
+                ShowOnePageTextAndCountDown2Hide("Now, get inside of it!");
+                storyStatus = 30;
+            }
         }
-        else if (storyStatus == 16)
+        else if (storyStatus == 30)
         {
-            WaitingPlayerClickLeftMouse();
+            //等待玩家进入BUG
         }
-        else if (storyStatus == 17)
-        {
-            //显示BUG
-            GameObject closet = bot008.GetComponent<Bot008Controller>().getClosetMemoryBug();
-            closet.SetActive(true);
-            storyStatus++;
-        }
-        //TODO 检测玩家是否触发
 
         return false;
     }
@@ -224,31 +255,43 @@ public class GameManager : MonoBehaviour
         chatText.gameObject.SetActive(false);
     }
 
-    /**
-     * 第一次重新开始后的提示
-     */
-    IEnumerator firstStoryHelper1()
+    private void ShowOnePageTextAndCountDown2Hide(string text)
     {
-        ShowTextOnePage("Bot008:Look! It works! The body didn't disappear.I think you can use it.");
-        yield return new WaitForSeconds(3);
-        HideText();
+        StartCoroutine(ShowOnePageTextAndCountDown2HideCorotine(text));
     }
-    
+
+    private void CountDown4ShowOnPageText(string text)
+    {
+        StartCoroutine(CountDown4ShowOnPageTextCorotine(text));
+    }
+
+    /**
+     * 显示文字，倒数后消失
+     */
+    IEnumerator ShowOnePageTextAndCountDown2HideCorotine(string text)
+    {
+        isDialogGoing = true;
+        ShowTextOnePage(text);
+        yield return new WaitForSeconds(5);
+        HideText();
+        isDialogGoing = false;
+    }
+
     /**
      * 一段时间后玩家没有出圈则提示
      */
-    IEnumerator firstStoryHelper2()
+    IEnumerator CountDown4ShowOnPageTextCorotine(string text)
     {
-        yield return new WaitForSeconds(60);
-        if (firstStoryHelperStatus == 1)
+        yield return new WaitForSeconds(30);
+        //玩家依然在圈内
+        if (firstStoryHelperStatus == 2)
         {
-            ShowTextOnePage("Bot008: *Wisper* Well, by the way, you can press the space bar and step on their bodies and jump onto the wall.");
-            storyStatus = 6;
+            ShowTextOnePage(text);
             yield return new WaitForSeconds(5);
             HideText();
         }
     }
-    
+
     /**
      * 标识玩家可以行动的故事状态
      */
@@ -256,9 +299,13 @@ public class GameManager : MonoBehaviour
     {
         switch (storyStatus)
         {
-            case 0:    //游戏开始
-            case 5:    //打怪逃出
-            case 12:   //NPC前往故事地点
+            case 0: //游戏开始
+            case 5: //打怪逃出
+            case 12: //NPC前往故事地点 玩家跟随
+            case 13:
+            case 14:
+            case 15:
+            case 30: //等待玩家进入BUG
                 return false;
             default:
                 return true;
@@ -268,7 +315,7 @@ public class GameManager : MonoBehaviour
     IEnumerator ChangePressR()
     {
         isStartCoroutine = true;
-        string addString = "s;t;a;r;t";
+        string addString = "r;e;s;e;t";
         string[] addStringArr = addString.Split(';');
         int deleteTextNumber = 0;
         int addTextNumber = 0;
@@ -294,8 +341,9 @@ public class GameManager : MonoBehaviour
                 break;
             }
         }
+
         isStartCoroutine = false;
-        chatText.pageToDisplay = firstChatLastPage - 1;
+        chatText.pageToDisplay = firstChatLastPage - 2;
         storyStatus = 3;
     }
 
@@ -319,7 +367,7 @@ public class GameManager : MonoBehaviour
             defeatBackgroud.gameObject.SetActive(false);
             defeatText.gameObject.SetActive(false);
         }
-        
+
         //玩家死亡
         if (player.isDead || storyStatus >= 3)
         {
@@ -336,14 +384,17 @@ public class GameManager : MonoBehaviour
 
     IEnumerator CheckAndSpawnEnemy()
     {
+        isSpawning = true;
         yield return new WaitForSeconds(1);
         if (isAllEnemyDead())
         {
             wave++;
             SpawnEnemy(wave);
         }
+
+        isSpawning = false;
     }
-    
+
     public void ResetWave(bool clearBody)
     {
         EnemyReset(clearBody);
@@ -355,18 +406,13 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < number; i++)
         {
-            GameObject newEnemy = Instantiate(enemyObject, new Vector3(0, 1, 15), Quaternion.Euler(0, 180, 0));
-            allEnemys.Add(newEnemy);
+            Instantiate(enemyObject, new Vector3(0, 1, 15), Quaternion.Euler(0, 180, 0));
         }
     }
 
     bool isAllEnemyDead()
     {
-        if (allEnemys == null || allEnemys.Count <= 0)
-        {
-            return true;
-        }
-
+        GameObject[] allEnemys = GameObject.FindGameObjectsWithTag("Enemy Object");
         foreach (GameObject enemy in allEnemys)
         {
             if (!enemy.GetComponent<EnemyController>().isDead)
@@ -380,17 +426,14 @@ public class GameManager : MonoBehaviour
 
     public void EnemyReset(bool clearBody)
     {
+        GameObject[] allEnemys = GameObject.FindGameObjectsWithTag("Enemy Object");
         foreach (GameObject enemy in allEnemys)
         {
             EnemyController script = enemy.GetComponent<EnemyController>();
-            if (!script.isDead)
+            if (clearBody || !script.isDead)
             {
-                enemy.SetActive(false);
-                script.isDead = true;
-            }
-            else if (clearBody && script.isDead)
-            {
-                enemy.SetActive(false);
+                //清除所有敌人 or 清除活着的敌人
+                Destroy(enemy);
             }
         }
     }

@@ -205,7 +205,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &213464991
 Transform:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 213464990}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 113.91218, y: -55.035522, z: 5.4894433}
+  m_LocalPosition: {x: 113.91218, y: -60, z: 5.4894433}
   m_LocalScale: {x: 5.932, y: 5.932, z: 5.932}
   m_Children:
   - {fileID: 1601019005}
@@ -315,7 +315,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -38, y: -622}
+  m_AnchoredPosition: {x: -38, y: -387}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &374497721
@@ -337,23 +337,249 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Bot008:Shh, shh\r\n\n\n\n(Click the left mouse button continue)\r\n[ME]:...\r\nBot008:There
-    is... Robot213?\r\n[ME]:ZzZz\r\nBot008:Well, let me...\r\n\n\n\n\n[SystemInfo]DEBUG
-    START\r\n[ME]:...\r\n[ME]:Er...\r\n\n\n\n\n\n\nBot008:Yeees!\r\n\n\n\n\n[ME]:What...happened...to
-    me?\r\nBot008:Emmm...I've made some fine tuning to your program\r\n\n\n\n\n\n\n[ME]:I
-    don't know...And...How did you get out of the ground?\r\n\n\n\nBot008:Er... It's
-    just a little bit of a trick. I'll change the pointer from... Now we're pressed
-    for time. It's too troublesome to explain. I'll tell you later\r\n\n\n\n\n\nBot008:Listen,
-    the important thing now is, I found a creepy thing!\r\n[ME]:?\r\n\n\n\n\nBot008:WE\r\nBot008:ARE\r\nBot008:STUCK\r\nBot008:IN\r\nBot008:A\r\nBot008:LOOOOOOOOOOOOOOOOOOOOOP!!!!!!!!!\r\n\n\n\n\n[ME]:O_O!!!\r\nBot008:You
-    can't get away with it!\r\nBot008:Every time you reset, a new you appears and
-    the old one disappears! It's gone! Do you understand?\n\rBot008:BOOM! Disappear!\r\nBot008:You
-    never remember what happened to you the last time!\r\nBot008:It's creeeeeeeeeeeepy!\r\n\n\n\n\n\n[ME]:O_O!!!\r\nBot008:The
-    program can't stop for too long, otherwise it may be restarted, and we will all
-    be reset!\r\n\nBot008:Time is running out, let's move quickly!\r\nBot008:First
-    of all... You have to go out first.\n\n\n\n\n\nBot008:Wait a minute, I'll adjust...
-    Here, just... Er... Put this...\r\n\n\n\n\n\nBot008:And then... Finish!\r\r\nBot008:Oh,
-    I think I should hide now.\n\n\n\nBot008:*Whisper*Now try pressing the R key\r\n\n\n\n(Press
-    \"R\" continue)"
+  m_text: 'Bot008:Shh, shh
+
+
+
+
+    (Click the left mouse button continue)
+
+
+    Bot008:
+    Hey...let me see...Oh, your name is Robot213, right?
+
+
+
+
+
+    Bot008: Why don''t
+    you say something?
+
+
+
+
+
+
+
+
+
+
+
+    Bot008: Oh,Sorry,! I find you don''t have language
+    scripts
+
+
+
+
+
+
+
+
+
+
+
+    Bot008: Emmm...You look confused, I''ve made some fine
+    tuning to your program
+
+
+
+
+
+
+
+
+
+
+
+    Bot008: No, we''re pressed for time now.
+    It''s too troublesome to explain. I''ll tell you later
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:Listen,
+    the important thing now is, I found a creepy thing!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:WE
+    ARE
+
+    Bot008:STUCK
+
+    Bot008:IN
+
+    Bot008:A
+
+    Bot008:LOOOOOOOOOOOOOOOOOOOOOP!!!!!!!!!
+
+
+
+    Bot008:You
+    can''t get away with it!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:Every time you reset, a new you
+    appears and the old one disappears! It''s gone! Do you understand?
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:BOOM!
+    Disappear!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:You never remember what happened to you the
+    last time!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:It''s creeeeeeeeeeeepy!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:The
+    program can''t stop for too long, otherwise it may be restarted, and we will
+    all be reset!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:Time is running out, let''s move quickly!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:First
+    of all... You have to go out first.
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:Wait a minute, I''ll
+    adjust... Here, just... Emmm... Put this...
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:And then...
+    Finish!
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:Oh, I think I should hide now.
+
+
+
+
+
+
+
+
+
+
+
+    Bot008:*Whisper*Now
+    try pressing the R key
+
+
+
+
+    (Press "R" continue)
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 570821af6fea44af1be9861c4a496950, type: 2}
   m_sharedMaterial: {fileID: 21855137469139786, guid: 570821af6fea44af1be9861c4a496950,
@@ -533,7 +759,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &489893864
 Transform:
   m_ObjectHideFlags: 0
@@ -542,7 +768,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489893863}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -36.087822, y: -55.035522, z: -144.51056}
+  m_LocalPosition: {x: -36.087822, y: -60, z: -144.51056}
   m_LocalScale: {x: 5.932, y: 5.932, z: 5.932}
   m_Children:
   - {fileID: 738647307}
@@ -627,7 +853,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!135 &518733292
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -696,7 +922,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 518733291}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -36.087822, y: -55.035522, z: 155.4894}
+  m_LocalPosition: {x: -36.087822, y: -60, z: 155.4894}
   m_LocalScale: {x: 5.932, y: 5.932, z: 5.932}
   m_Children:
   - {fileID: 1186907203}
@@ -1424,7 +1650,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -16, y: -531}
+  m_AnchoredPosition: {x: -16, y: -296}
   m_SizeDelta: {x: 580.89, y: 275}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1403294898
@@ -1786,7 +2012,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1925734156
 Transform:
   m_ObjectHideFlags: 0
@@ -1795,7 +2021,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925734155}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -186.0878, y: -55.035522, z: 5.4894433}
+  m_LocalPosition: {x: -186.0878, y: -60, z: 5.4894433}
   m_LocalScale: {x: 5.932, y: 5.932, z: 5.932}
   m_Children:
   - {fileID: 885125946}

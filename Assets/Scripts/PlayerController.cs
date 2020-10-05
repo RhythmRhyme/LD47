@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameManager gameManager;
+    private GameManager gameManager;
     public GameObject WeaponSet;
     private WeaponStandardAction weaponStandardAction;
     public GameObject mainCamera;
@@ -23,6 +23,8 @@ public class PlayerController : MonoBehaviour
 
     public bool isOutFirstCircle { get; set; }
 
+    private Material normalMaterial;
+    
     public void Death()
     {
         Debug.Log("Player Death");
@@ -33,9 +35,16 @@ public class PlayerController : MonoBehaviour
         mainCamera.GetComponent<CameraManager>().ZoomOut();
         //光剑收起
         weaponStandardAction.light.SetActive(false);
-        gameManager.playerDeathCount++;
+        getGameManager().playerDeathCount++;
+
+        normalMaterial = GetComponent<MeshRenderer>().materials[0];
     }
 
+    public GameManager getGameManager()
+    {
+        return gameManager;
+    }
+    
     void Start()
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
@@ -70,7 +79,7 @@ public class PlayerController : MonoBehaviour
         {
             init();
             reset();
-            gameManager.ResetWave(clearBody);
+            getGameManager().ResetWave(clearBody);
         }
     }
 
@@ -81,7 +90,7 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        if (gameManager.pressR2Refresh)
+        if (getGameManager().pressR2Refresh)
         {
             pressR(false);
         }
@@ -113,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     public bool CanMove()
     {
-        return !gameManager.isStoryGoing();
+        return !getGameManager().isStoryGoing();
     }
 
     /*
@@ -191,7 +200,7 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-    
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.CompareTag("FirstCircle"))
@@ -201,12 +210,19 @@ public class PlayerController : MonoBehaviour
             isOutFirstCircle = true;
         }
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("FirstCircle"))
         {
             Debug.Log("FirstCircle OnTriggerEnter=" + other.gameObject.name + " tag=" + other.gameObject.tag);
             isOutFirstCircle = false;
+        }
+        else if (other.gameObject.CompareTag("Bug Inside"))
+        {
+            Debug.Log("Bug Inside OnTriggerEnter=" + other.gameObject.name + " tag=" + other.gameObject.tag);
+            //TODO load scenes 2
+            SceneManager.LoadScene("Scene2");
         }
     }
 }
