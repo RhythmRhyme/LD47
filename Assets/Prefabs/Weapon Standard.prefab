@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 922648877630835499}
   m_Layer: 0
   m_Name: Hilt 2
-  m_TagString: Untagged
+  m_TagString: Lightsaber Hilt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -256,7 +256,7 @@ GameObject:
   - component: {fileID: 1319911813291053387}
   m_Layer: 0
   m_Name: Hilt 1
-  m_TagString: Untagged
+  m_TagString: Lightsaber Hilt
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

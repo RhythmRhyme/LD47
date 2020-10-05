@@ -9,20 +9,20 @@ using Random = UnityEngine.Random;
 
 public class PlayerController : MonoBehaviour
 {
-    private GameManager gameManager;
     public GameObject WeaponSet;
-    private WeaponStandardAction weaponStandardAction;
-    public GameObject mainCamera;
-    private Rigidbody playerRb;
+    public GameObject mainCamera { get; set; }
+    public AudioSource audio { get; set; }
     [SerializeField] private float moveSpeed = 10;
     public float mouseSpeed = 2f;
     public bool isDead { set; get; }
     public float jumpForce = 5;
-    private int blackPanelAlpha;
     public bool isOnGround { get; set; }
 
     public bool isOutFirstCircle { get; set; }
-
+    
+    private GameManager gameManager;
+    private WeaponStandardAction weaponStandardAction;
+    private Rigidbody playerRb;
     private Material normalMaterial;
     
     public void Death()
@@ -49,6 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         mainCamera = GameObject.Find("Main Camera");
+        audio = GetComponent<AudioSource>();
         playerRb = GetComponent<Rigidbody>();
         weaponStandardAction = Instantiate(WeaponSet, transform.position, WeaponSet.transform.rotation).GetComponent<WeaponStandardAction>();
         weaponStandardAction.Master = this.gameObject;
@@ -71,9 +72,10 @@ public class PlayerController : MonoBehaviour
         weaponStandardAction.light.SetActive(true);
         weaponStandardAction.light.gameObject.transform.localPosition = new Vector3(0, 1, 0);
         weaponStandardAction.light.gameObject.transform.localRotation = WeaponSet.transform.localRotation;
+        changeWeaponSize(gameManager.enemyNumber);
     }
 
-    public void pressR(bool clearBody)
+    public void checkPressR(bool clearBody)
     {
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -92,12 +94,12 @@ public class PlayerController : MonoBehaviour
 
         if (getGameManager().pressR2Refresh)
         {
-            pressR(false);
+            checkPressR(false);
         }
 
         if (isDead)
         {
-            pressR(true);
+            checkPressR(true);
             return;
         }
 
@@ -122,6 +124,10 @@ public class PlayerController : MonoBehaviour
 
     public bool CanMove()
     {
+        if (gameManager.isScene2)
+        {
+            return !getGameManager().isStory2Going();
+        }
         return !getGameManager().isStoryGoing();
     }
 
@@ -178,7 +184,7 @@ public class PlayerController : MonoBehaviour
         // }
         if (leftMouseUp)
         {
-            weaponStandardAction.Attack();
+            weaponStandardAction.PreAttack();
         }
         else
         {
@@ -221,8 +227,15 @@ public class PlayerController : MonoBehaviour
         else if (other.gameObject.CompareTag("Bug Inside"))
         {
             Debug.Log("Bug Inside OnTriggerEnter=" + other.gameObject.name + " tag=" + other.gameObject.tag);
-            //TODO load scenes 2
             SceneManager.LoadScene("Scene2");
         }
+    }
+
+    public void changeWeaponSize(int enemyNumber)
+    {
+        float n =(120 - enemyNumber) * 0.05f;
+        weaponStandardAction.gameObject.transform.localScale = new Vector3(1 + n,1 + n, 1 + n);
+        // weaponStandardAction.light.transform.localPosition = new Vector3(0,1 + n, 0);
+        // weaponStandardAction.light.transform.localScale = new Vector3(weaponStandardAction.light.transform.localScale.x,0.7f + n, weaponStandardAction.light.transform.localScale.z);
     }
 }

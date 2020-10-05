@@ -32,7 +32,7 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isDead || player == null || playerController.isDead)
+        if (isDead || player == null || playerController.isDead || !playerController.CanMove())
         {
             return;
         }
@@ -126,6 +126,7 @@ public class EnemyController : MonoBehaviour
             return;
         Debug.Log("Enemy Death");
         weaponStandardAction.audio.PlayOneShot(weaponStandardAction.audioHitSomebody);
+        playerController.getGameManager().AddEnemyNumber(1);
         isDead = true;
         //光剑收起
         weaponStandardAction.light.SetActive(false);

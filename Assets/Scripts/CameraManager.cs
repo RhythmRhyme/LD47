@@ -36,6 +36,12 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    public void ZoomOutPlus()
+    {
+        transform.localPosition = new Vector3(0, 10f, -10f);
+        transform.localRotation = Quaternion.Euler(40f,0f,0f);
+    }
+
     public void ZoomOut()
     {
         transform.localPosition = thirdPosition;

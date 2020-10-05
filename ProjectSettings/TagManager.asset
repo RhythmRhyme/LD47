@@ -12,6 +12,9 @@ TagManager:
   - Bug
   - Bug Inside
   - Enemy Object
+  - Ground
+  - Lightsaber Hilt
+  - Player Head
   layers:
   - Default
   - TransparentFX

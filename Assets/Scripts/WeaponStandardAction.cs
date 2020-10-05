@@ -27,7 +27,7 @@ public class WeaponStandardAction : MonoBehaviour
     public int posture;
 
     private float changeSpeed = 10;
-    private float attSpeed = 15;
+    private float attSpeed = 20;
 
     //目标动作位置、角度
     private Vector3 targetPosition = Vector3.zero;
@@ -44,6 +44,11 @@ public class WeaponStandardAction : MonoBehaviour
         }
         audio = GetComponent<AudioSource>();
         posture = 1;
+        if (Master.CompareTag("Player"))
+        {
+            changeSpeed = 30;
+            attSpeed = 20;
+        }
     }
 
     // Update is called once per frame
@@ -71,7 +76,10 @@ public class WeaponStandardAction : MonoBehaviour
         posture = 12;
         targetPosition = new Vector3(0, 1.1f, 0.6f);
         targetRotation = Quaternion.Euler(-130f + 90, 0, 0);
-        ActionAndCheckIsOver(targetPosition, targetRotation, attSpeed);
+        if (ActionAndCheckIsOver(targetPosition, targetRotation, attSpeed))
+        {
+            posture = 22;
+        }
     }
 
     public void upPositionAttack()
@@ -100,14 +108,19 @@ public class WeaponStandardAction : MonoBehaviour
         //横放
         targetPosition = new Vector3(-0.3f, 0.65f, 0.5f);
         targetRotation = Quaternion.Euler(new Vector3(6f + 90, -60f, 0));
-        ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed);
+        if (ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed))
+        {
+            posture = 20;
+        }
     }
 
     public void leftPositionAttack()
     {
         posture = 20;
-        targetPosition = new Vector3(0.5f, 0.52f, 0.72f);
-        targetRotation = Quaternion.Euler(new Vector3(65, 50, 0));
+        // targetPosition = new Vector3(0.5f, 0.52f, 0.72f);
+        // targetRotation = Quaternion.Euler(new Vector3(65, 50, 0));
+        targetPosition = new Vector3(0.5f, 0f, 0.5f);
+        targetRotation = Quaternion.Euler(new Vector3(90, 215, 140));
         ActionAndCheckIsOver(targetPosition, targetRotation, attSpeed, attCooldown);
         StartCoroutine(CountAndSetPosture());
     }
@@ -125,7 +138,10 @@ public class WeaponStandardAction : MonoBehaviour
         posture = 11;
         targetPosition = new Vector3(0.5f, 0f, 0f);
         targetRotation = Quaternion.Euler(new Vector3(-180f + 90, -190f, 0));
-        ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed);
+        if (ActionAndCheckIsOver(targetPosition, targetRotation, changeSpeed))
+        {
+            posture = 21;
+        }
     }
 
     public void rightPositionAttack()

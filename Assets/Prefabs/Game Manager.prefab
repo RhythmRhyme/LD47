@@ -47,8 +47,17 @@ MonoBehaviour:
     type: 3}
   enemyObject: {fileID: 1527958674926322819, guid: 70177945dae589449a02940b1d24a32a,
     type: 3}
+  wireframeMaterial: {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
   storyStatus: 0
   pressRText: {fileID: 0}
   ChatBackgroud: {fileID: 0}
   chatText: {fileID: 0}
+  defeatBackgroud: {fileID: 0}
+  defeatText: {fileID: 0}
+  timeText: {fileID: 0}
+  enemyNumberText: {fileID: 0}
+  endText: {fileID: 0}
+  destroyClip: {fileID: 8300000, guid: 7aa4ba0eaba15f345a0c363409c79ab1, type: 3}
+  wave: 0
   pressR2Refresh: 0
+  firstStoryHelperStatus: 0
